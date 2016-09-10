@@ -10,7 +10,7 @@ Then run:
 
 To build and run the app, use:
 ```
-jekyll serv --watch
+jekyll serve --watch
 ```
 
 
