@@ -3,8 +3,6 @@
 url: "http://workshop2.github.io"
 baseurl: ""
 title: Simon Colmer
-
-# Short description of your site
 description: Meet Simon the developer.
 
 # --- Navigation bar options --- #
@@ -18,8 +16,6 @@ navbar-links:
     - Cancer Vaccine Institute: "https://github.com/cancervaccine"
   Github: "http://github.com/workshop2"
 
-# Image to show in the navigation bar - image must be a square (width = height)
-# Remove this parameter if you don't want an image in the navbar
 avatar: "https://www.gravatar.com/avatar/83f4f64703cfbd192b650927d2cd9a73.jpg?size=100"
 
 # --- Footer options --- #
@@ -51,10 +47,6 @@ share-links-active:
   google: false
   linkedin: false
 
-# How to display the link to the website in the footer
-# Remove this if you don't want a link in the footer
-url-pretty: "MyWebsite.com"  # eg. "deanattali.com/beautiful-jekyll"
-
 # --- Misc --- #
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
@@ -66,7 +58,7 @@ disqus: "workshop2"
 # --- Don't need to touch anything below here (but you can if you want) --- #
 
 # Output options (more information on Jekyll's site)
-timezone: "America/Vancouver"
+timezone: "Europe/London"
 markdown: kramdown
 highlighter: rouge
 permalink: /:year-:month-:day-:title/
