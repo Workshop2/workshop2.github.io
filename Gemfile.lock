@@ -139,6 +139,7 @@ DEPENDENCIES
   jekyll (= 3.2.1)
   jekyll-compose
   jekyll-paginate
+  jemoji
 
 BUNDLED WITH
    1.13.0
