@@ -8,7 +8,7 @@ bigimg: /img/dotnet-core-structuremap.jpg
 
 So myself and [@anotherchris](http://www.anotherchris.net/) are in the process of doing our first .Net Core port and we chose [Syringe](https://github.com/totaljobsgroup/syringe) to play with.
 
-I have been working on porting over our service/API layer, and things had been going really well until it got to loading up configuration from file. Up until this point we had 3/4 different config files that lived on disk, and they could either be in the local directory or live in  *ProgramData/Syringe**.
+I have been working on porting over our service/API layer, and things had been going really well until it got to loading up configuration from file. Up until this point we had 3/4 different config files that lived on disk, and they could either be in the local directory or live in  *ProgramData/Syringe*.
 
 The people over at Microsoft have supplied us with a really cool way of loading config from many places in one easy to use pattern: [Configuration](https://docs.asp.net/en/latest/fundamentals/configuration.html).
 
