@@ -1,6 +1,6 @@
 # --- General options --- #
 
-url: "http://workshop2.github.io"
+url: "http://simon.colmer.me"
 baseurl: ""
 title: Simon Colmer's Blog
 description: Meet Simon the developer.
@@ -11,7 +11,7 @@ description: Meet Simon the developer.
 navbar-links:
   About Me: "aboutme"
   Resources:
-    - Syringe: "http://github.com/totaljobs/syringe/"
+    - Syringe: "http://github.com/totaljobsgroup/syringe/"
     - Noobot: "http://github.com/noobot/"
     - Cancer Vaccine Institute: "https://github.com/cancervaccine"
   Github: "http://github.com/workshop2"
