@@ -123,7 +123,8 @@ Rewrite rules are a pain to test, however we have a number of helper methods to 
 ## The end
 Next post I will try and walk you through some in-bound header changes and how to auto-configure your IIS site to allow you to do this.
 
-###Resulting OutBoundRules:
+### Resulting OutBoundRules:
+
 ```xml
 <system.webServer>
     <rewrite>
