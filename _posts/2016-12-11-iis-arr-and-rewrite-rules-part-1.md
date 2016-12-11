@@ -49,6 +49,21 @@ I quickly identified the following **Set-Cookie** situations I needed to solve:
   
 ### Solving problemo 1
 
+```xml
+<outboundRules>
+  <rule name="Ensure cookies are not stored on recruiter sub-domain" preCondition="contains-recruiter-sub-domain-set-cookie-header">
+    <match serverVariable="RESPONSE_Set_Cookie" pattern="^(.*?domain=)recruiter\.(.*?)$" negate="false" />
+    <action type="Rewrite" value="{R:1}{R:2}" /> 
+    <conditions>
+    </conditions>
+  </rule>
+  <preConditions>
+    <preCondition name="contains-recruiter-sub-domain-set-cookie-header">
+  	<add input="{RESPONSE_Set_Cookie}" pattern=".*?domain=recruiter.*?" />
+    </preCondition>
+  </preConditions>
+</outboundRules>
+```
 
 
 
