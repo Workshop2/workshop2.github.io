@@ -35,7 +35,7 @@ On my first attempt of trying to get my routing layer deployed we started receiv
 
 Well, when testing internally I always started with a fresh browser with no cookies and everything worked :thumbsup:. In the real world many customers currently have their account cookies all set and when we flipped they found they were getting logged out with the error **"Someone else is already logged in"** - my routing layer was for some reason setting all the cookies with to the sub-domain instead of the TLD (a hidden IIS 'feature').
 
-Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek :scared:. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
+Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek :worried:. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
 
 ## Solving the problem
 There are years of code and legacy behind how cookies are stored and read - however I am not here to fix all the problems, I am here to enable the platform to move forward.
@@ -98,7 +98,7 @@ Finally, we want to write out the new Set-Cookie header by appending a **; domai
 </outboundRules>
 ```
 
-Beautiful :smiling:
+Beautiful :smile:
 
 
 ### Solving problemo 2
