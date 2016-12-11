@@ -39,13 +39,15 @@ Well, when testing internally I always started with a fresh browser with no cook
 Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
 
 ## Solving the problem
-There are years of code and legacy behind how domains and stored and read - I am not here to fix all the problems. I thought about it and talked to many people and in the end we decided to ensure cookies are set correctly while the new routing layer is in place.
+There are years of code and legacy behind how cookies are stored and read - however I am not here to fix all the problems, I am here to enable the platform to move forward.
 
-Rewrite Rules allow you to define rules in in-bound traffic as well as out-bound traffic which allows us to modify content and header of HTTP responses.
+IIS Rewrite Rules allow you to define rules for in-bound traffic as well as out-bound traffic which enables us to modify content and header of HTTP responses.
 
-The problem I needed to solve was: **"To ensure the domain is set for all _Set-Cookie_ headers to the TLD."**
+The problem I needed to solve was: 
+**"Ensure the domain is set for all _Set-Cookie_ headers to the TLD."**
 
 I quickly identified the following **Set-Cookie** situations I needed to solve:
+
   1. No domain is set in the header
   1. The wrong domain is set in the header
   
