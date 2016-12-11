@@ -67,11 +67,13 @@ First I created a pre-condition to ensure the rule only triggered for missing va
 ```
 
 Next I created a rule that accomplished the following:
+
   - Used the pre-condition we created above
   - Capture the correct domain we want to use (without ``recruiter.`` at the start)
   - Write out the new Set-Cookie value
   
 To capture data in rewrite rules you put the data into a **regex group** and you can then access that data later using curly braces e.g. **{R:0}** or **{C:0}**.
+
   - R = Request
   - C = Condition
 
