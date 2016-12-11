@@ -100,7 +100,7 @@ Beautiful.
 ### Solving problemo 2
 This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **recruiter.**. 
 
-Again, we need to create a pre-condition:
+Again, we need to create a pre-condition to detect a dodgy cookie domain:
 
 ```xml
 <preCondition name="contains-recruiter-sub-domain-set-cookie-header">
@@ -108,8 +108,20 @@ Again, we need to create a pre-condition:
 </preCondition>
 ```
 
+Then using the REGEX variable matching magic we are able to store down the Set-Cookie header before the domain (R:1) and after the dodgy domain (R:2) allowing us to re-assemble the header on the Rewrite action:
+```xml
+<rule name="Ensure cookies are not stored on recruiter sub-domain" preCondition="contains-recruiter-sub-domain-set-cookie-header">
+  <match serverVariable="RESPONSE_Set_Cookie" pattern="^(.*?domain=)recruiter\.(.*?)$" negate="false" />
+  <action type="Rewrite" value="{R:1}{R:2}" /> 
+</rule>
+```
+
+### Testing
+Rewrite rules are a pain to test, however we have a number of helper methods to parse the XML to unit test that they perform what you need. If we are able to turn these into a nuget package I will list it here.
 
 
+## The end
+Next post I will try and walk you through some in-bound header changes and how to auto-configure your IIS site to allow you to do this.
 
 
 
