@@ -32,9 +32,9 @@ To give some background as to why I am having to mess with cookies I am going to
 The recruiter side of TJG stores its cookies against **totaljobs.com** instead of **recruiter.totaljobs.com** - but why does this matter?
 
 ## Domains matter
-On my first attempt of trying to get my routing layer deployed we started receiving many bugs and errors on the website - we were sensible and turned off the routing layer to ensure no other customer was being hurt. I had tested my routing layer over and over locally, in INT and in PAT - WHO DID THIS HAPPEN?
+On my first attempt of trying to get my routing layer deployed we started receiving many bugs and errors on the website - we were sensible and turned off the routing layer to ensure no other customer was being hurt. I had tested my routing layer over and over locally, in INT and in PAT - HOW DID THIS HAPPEN?
 
-Well, when testing internally I always started with a fresh browser with no cookies and everything worked :thumbsup:. In the real world many customers currently have their account cookies all set and when we flipped they found they were getting logged out with the error **"Someone else is already logged in"** - my routing layer was for some reason setting all the cookies with to the sub-domain instead of the TLD.
+Well, when testing internally I always started with a fresh browser with no cookies and everything worked :thumbsup:. In the real world many customers currently have their account cookies all set and when we flipped they found they were getting logged out with the error **"Someone else is already logged in"** - my routing layer was for some reason setting all the cookies with to the sub-domain instead of the TLD (a hidden IIS 'feature').
 
 Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
 
