@@ -10,7 +10,7 @@ tags:
   - arr
   - rewrite
   - setup
-bigimg: /img/dotnet-core-structuremap.jpg
+bigimg: /img/rewrite.jpg
 ---
 The project I have been working on at TJG is to add a routing layer into out Recruiter website to enable the 
 the platform to become more agile.
