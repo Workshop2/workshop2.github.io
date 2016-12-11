@@ -123,8 +123,35 @@ Rewrite rules are a pain to test, however we have a number of helper methods to 
 ## The end
 Next post I will try and walk you through some in-bound header changes and how to auto-configure your IIS site to allow you to do this.
 
-
-
+###Resulting OutBoundRules:
+```xml
+<system.webServer>
+    <rewrite>
+        <outboundRules>
+            <rule name="Ensure cookies are not stored on recruiter sub-domain" preCondition="contains-recruiter-sub-domain-set-cookie-header">
+                <match serverVariable="RESPONSE_Set_Cookie" pattern="^(.*?domain=)recruiter\.(.*?)$" negate="false" />
+                <action type="Rewrite" value="{R:1}{R:2}" />
+            </rule>
+            <rule name="Ensure cookies domain is set" preCondition="set-cookie-is-missing-domain">
+                <match serverVariable="RESPONSE_Set_Cookie" pattern="(.*)" negate="false" />
+                <action type="Rewrite" value="{R:0}; domain={C:2}" />
+                <conditions trackAllCaptures="false">
+                    <add input="{R:0}" pattern="domain=" negate="true" />
+                    <add input="{HTTP_HOST}" pattern="^(recruiter.|)(.*?)(:|$)" />
+                </conditions>
+            </rule>
+            <preConditions>
+                <preCondition name="contains-recruiter-sub-domain-set-cookie-header">
+                    <add input="{RESPONSE_Set_Cookie}" pattern=".*?domain=recruiter.*?" />
+                </preCondition>
+                <preCondition name="set-cookie-is-missing-domain">
+                    <add input="RESPONSE_Set_Cookie" pattern="domain=" negate="true" />
+                </preCondition>
+            </preConditions>
+        </outboundRules>
+    </rewrite>
+</system.webServer>
+```
 
 
 
