@@ -1,7 +1,16 @@
 ---
 layout: post
 published: false
-title: IIS ARR & Rewrite Rules - Advanced Tips
+title: 'IIS ARR, Rewrite Rules & Auto Setup Tips'
+subtitle: ARR is hard with barely any help online
+date: '2016-12-11'
+tags:
+  - dotnet
+  - iis
+  - arr
+  - rewrite
+  - setup
+bigimg: /img/dotnet-core-structuremap.jpg
 ---
 ## A New Post
 
