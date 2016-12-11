@@ -102,7 +102,7 @@ Beautiful :smile:
 
 
 ### Solving problemo 2
-This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **recruiter.**. 
+This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **"recruiter."**. 
 
 Again, we need to create a pre-condition to detect a dodgy cookie domain:
 
