@@ -9,7 +9,7 @@ tags:
   - iis
   - arr
   - rewrite
-  - setup
+  - cookies
 bigimg: /img/rewrite.jpg
 ---
 The project I have been working on at TJG is to add a routing layer into out Recruiter website to enable the 
