@@ -9,7 +9,7 @@ description: Meet Simon the developer.
 
 # List of links in the navigation bar
 navbar-links:
-  About Me: "aboutme"
+#  About Me: "aboutme"
   Resources:
     - Syringe: "http://github.com/totaljobsgroup/syringe/"
     - Noobot: "http://github.com/noobot/"
