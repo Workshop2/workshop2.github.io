@@ -52,6 +52,7 @@ I quickly identified the following **Set-Cookie** situations I needed to solve:
 Using REGEX I aimed to detect the **lack** of ``domain=`` in the header and then append the correct value onto the end of the Set-Cookie header.
 
 First I created a pre-condition to ensure the rule only triggered for missing values in the Set-Cookie header:
+
 ```xml
 <outboundRules>
   <preConditions>
@@ -96,7 +97,16 @@ Finally, we want to write out the new Set-Cookie header by appending a **; domai
 Beautiful.
 
 
+### Solving problemo 2
+This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **recruiter.**. 
 
+Again, we need to create a pre-condition:
+
+```xml
+<preCondition name="contains-recruiter-sub-domain-set-cookie-header">
+  <add input="{RESPONSE_Set_Cookie}" pattern=".*?domain=recruiter.*?" />
+</preCondition>
+```
 
 
 
