@@ -44,26 +44,56 @@ Rewrite Rules allow you to define rules in in-bound traffic as well as out-bound
 The problem I needed to solve was: **"To ensure the domain is set for all _Set-Cookie_ headers to the TLD."**
 
 I quickly identified the following **Set-Cookie** situations I needed to solve:
-  - No domain is set in the header
-  - The wrong domain is set in the header
+  1. No domain is set in the header
+  1. The wrong domain is set in the header
   
 ### Solving problemo 1
+Using REGEX I aimed to detect the **lack** of ``domain=`` in the header and then append the correct value onto the end of the Set-Cookie header.
 
+First I created a pre-condition to ensure the rule only triggered for missing values in the Set-Cookie header:
 ```xml
 <outboundRules>
-  <rule name="Ensure cookies are not stored on recruiter sub-domain" preCondition="contains-recruiter-sub-domain-set-cookie-header">
-    <match serverVariable="RESPONSE_Set_Cookie" pattern="^(.*?domain=)recruiter\.(.*?)$" negate="false" />
-    <action type="Rewrite" value="{R:1}{R:2}" /> 
-    <conditions>
-    </conditions>
-  </rule>
   <preConditions>
-    <preCondition name="contains-recruiter-sub-domain-set-cookie-header">
-  	<add input="{RESPONSE_Set_Cookie}" pattern=".*?domain=recruiter.*?" />
+    <preCondition name="set-cookie-is-missing-domain">
+      <add input="RESPONSE_Set_Cookie" pattern="domain=" negate="true" />
     </preCondition>
   </preConditions>
 </outboundRules>
 ```
+
+Next I created a rule that accomplished the following:
+  - Used the pre-condition we created above
+  - Capture the correct domain we want to use (without ``recruiter.`` at the start)
+  - Write out the new Set-Cookie value
+  
+To capture data in rewrite rules you put the data into a **regex group** and you can then access that data later using curly braces e.g. **{R:0}** or **{C:0}**.
+  - R = Request
+  - C = Condition
+
+Next I created a condition to parse out the data I needed from the _HTTP_HOST_ header. The rule I created is very leniant as it doesn't require the header to start with `recruiter.` and also ensures that port numbers are not used.
+```regex
+^(recruiter.|)(.*?)(:|$)
+```
+
+Using the above regex means we can access the TLD via the **(.*?)** selector via the **{C:2}** variable.
+
+Finally we want to write out the new Set-Cookie header by appending a **; domain=** onto the end referencing both the original value and the new domain value we just captured.
+
+```xml
+<outboundRules>
+  <rule name="Ensure cookies domain is set" preCondition="set-cookie-is-missing-domain">
+    <match serverVariable="RESPONSE_Set_Cookie" pattern="(.*)" negate="false" />
+    <conditions trackAllCaptures="false">
+      <add input="{R:0}" pattern="domain=" negate="true" />
+      <add input="{HTTP_HOST}" pattern="^(recruiter.|)(.*?)(:|$)" />
+    </conditions>
+    <action type="Rewrite" value="{R:0}; domain={C:2}" />
+  </rule>
+</outboundRules>
+```
+
+Beautiful.
+
 
 
 
