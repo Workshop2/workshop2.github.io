@@ -71,7 +71,7 @@ Next I created a rule that accomplished the following:
   - Capture the correct domain we want to use (without ``recruiter.`` at the start)
   - Write out the new Set-Cookie value
   
-To capture data in rewrite rules you put the data into a **regex group** and you can then access that data later using curly braces e.g. **{R:0}** or **{C:0}**.
+To capture data in rewrite rules you put the data into a **regex group** which can then be accessed later using curly braces e.g. **{R:*}** or **{C:*}**.
 
   - R = Request
   - C = Condition
@@ -81,9 +81,9 @@ Next I created a condition to parse out the data I needed from the _HTTP_HOST_ h
 ^(recruiter.|)(.*?)(:|$)
 ```
 
-Using the above regex means we can access the TLD via the **(.*?)** selector via the **{C:2}** variable.
+Using the above regex means we can access the TLD via the **(.*?)** selector using the **{C:2}** variable.
 
-Finally, we want to write out the new Set-Cookie header by appending a **; domain=** onto the end referencing both the original value and the new domain value we just captured.
+Finally, we want to write out the new Set-Cookie header by appending a **; domain=** onto the end of the exiting value.
 
 ```xml
 <outboundRules>
