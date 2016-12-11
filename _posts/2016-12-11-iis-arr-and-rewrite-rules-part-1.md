@@ -12,8 +12,7 @@ tags:
   - cookies
 bigimg: /img/rewrite.jpg
 ---
-The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the 
-the platform to become more agile.
+The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the the platform to become more agile.
 
 We have previously accomplished this by creating a [Reverse Proxy](https://en.wikipedia.org/wiki/Reverse_proxy) with [ARR](https://www.iis.net/downloads/microsoft/application-request-routing) and [Rewrite Rules](https://www.iis.net/learn/extensions/url-rewrite-module/creating-rewrite-rules-for-the-url-rewrite-module) to allow us to send certain requests to independent apps - these can then be released and evolve on their own. The problem I have been dealing with is the legacy/aging platform that has evolved of the years. This approach is still correct because:
 
@@ -36,7 +35,7 @@ On my first attempt of trying to get my routing layer deployed we started receiv
 
 Well, when testing internally I always started with a fresh browser with no cookies and everything worked :thumbsup:. In the real world many customers currently have their account cookies all set and when we flipped they found they were getting logged out with the error **"Someone else is already logged in"** - my routing layer was for some reason setting all the cookies with to the sub-domain instead of the TLD (a hidden IIS 'feature').
 
-Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
+Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek :scared:. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
 
 ## Solving the problem
 There are years of code and legacy behind how cookies are stored and read - however I am not here to fix all the problems, I am here to enable the platform to move forward.
@@ -99,7 +98,7 @@ Finally, we want to write out the new Set-Cookie header by appending a **; domai
 </outboundRules>
 ```
 
-Beautiful.
+Beautiful :smiling:
 
 
 ### Solving problemo 2
