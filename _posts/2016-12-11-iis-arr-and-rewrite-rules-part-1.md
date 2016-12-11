@@ -9,16 +9,16 @@ tags:
   - iis
   - arr
   - rewrite
-  - setup
+  - cookies
 bigimg: /img/rewrite.jpg
 ---
-The project I have been working on at TJG is to add a routing layer into out Recruiter website to enable the 
-the platform to become more agile.
+The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the the platform to become more agile.
 
-We have previously accomplished this by creating a [Reverse Proxy](https://en.wikipedia.org/wiki/Reverse_proxy) with [ARR](https://www.iis.net/downloads/microsoft/application-request-routing) and [Rewrite Rules](https://www.iis.net/learn/extensions/url-rewrite-module/creating-rewrite-rules-for-the-url-rewrite-module) to allow us to send certain requests to independent apps - these can then be released and evolve on their own. The problem I have been facing is dealing with a legacy/aging platform that has evolved of the years. This approach is still correct because:
-  - The routing is an additive process (we shouldn't have to modify existing code - however this might be a little naive)
-  - We can test the routing layer for specific brands (single site of our portfolio) without affecting the other sites
-  - We should be able to easily flip back/undo the routing at the load balancer level (super safe)
+We have previously accomplished this by creating a [Reverse Proxy](https://en.wikipedia.org/wiki/Reverse_proxy) with [ARR](https://www.iis.net/downloads/microsoft/application-request-routing) and [Rewrite Rules](https://www.iis.net/learn/extensions/url-rewrite-module/creating-rewrite-rules-for-the-url-rewrite-module) to allow us to send certain requests to independent apps - these can then be released and evolve on their own. The problem I have been dealing with is the legacy/aging platform that has evolved of the years. This approach is still correct because:
+
+- The routing is an additive process (we shouldn't have to modify existing code, however this might be a little naive)
+- We can test the routing layer for specific brands (single site of our portfolio) without affecting the other sites
+- We should be able to easily flip back/undo the routing at the load balancer level (super safe)
   
 Dealing with rewrite rules in IIS can be super painful due to the lack of debugging that is available - however I will try and address this in later post.
 
@@ -31,20 +31,22 @@ To give some background as to why I am having to mess with cookies I am going to
 The recruiter side of TJG stores its cookies against **totaljobs.com** instead of **recruiter.totaljobs.com** - but why does this matter?
 
 ## Domains matter
-On my first attempt of trying to get my routing layer deployed we started receiving many bugs and errors on the website - we were sensible and turned off the routing layer to ensure no other customer was being hurt. I had tested my routing layer over and over locally, in INT and in PAT - WHO DID THIS HAPPEN?
+On my first attempt of trying to get my routing layer deployed we started receiving many bugs and errors on the website - we were sensible and turned off the routing layer to ensure no other customer was being hurt. I had tested my routing layer over and over locally, in INT and in PAT - HOW DID THIS HAPPEN?
 
-Well, when testing internally I always started with a fresh browser with no cookies and everything worked :thumbsup:. In the real world many customers currently have their account cookies all set and when we flipped they found they were getting logged out with the error **"Someone else is already logged in"** - my routing layer was for some reason setting all the cookies with to the sub-domain instead of the TLD.
+Well, when testing internally I always started with a fresh browser with no cookies and everything worked :thumbsup:. In the real world many customers currently have their account cookies all set and when we flipped they found they were getting logged out with the error **"Someone else is already logged in"** - my routing layer was for some reason setting all the cookies with to the sub-domain instead of the TLD (a hidden IIS 'feature').
 
-Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
+Our customers now had duplicate cookies under both **totaljobs.com** and **recruiter.totaljobs.com** - eek :worried:. Luckily they just had to close their bowsers, clear their cookies or wait a few hours for the cookies to expire and everything was ok.
 
 ## Solving the problem
-There are years of code and legacy behind how domains and stored and read - I am not here to fix all the problems. I thought about it and talked to many people and in the end we decided to ensure cookies are set correctly while the new routing layer is in place.
+There are years of code and legacy behind how cookies are stored and read - however I am not here to fix all the problems, I am here to enable the platform to move forward.
 
-Rewrite Rules allow you to define rules in in-bound traffic as well as out-bound traffic which allows us to modify content and header of HTTP responses.
+IIS Rewrite Rules allow you to define rules for in-bound traffic as well as out-bound traffic which enables us to modify content and header of HTTP responses.
 
-The problem I needed to solve was: **"To ensure the domain is set for all _Set-Cookie_ headers to the TLD."**
+The problem I needed to solve was: 
+**"Ensure the domain is set for all _Set-Cookie_ headers to the TLD."**
 
 I quickly identified the following **Set-Cookie** situations I needed to solve:
+
   1. No domain is set in the header
   1. The wrong domain is set in the header
   
@@ -64,11 +66,13 @@ First I created a pre-condition to ensure the rule only triggered for missing va
 ```
 
 Next I created a rule that accomplished the following:
+
   - Used the pre-condition we created above
   - Capture the correct domain we want to use (without ``recruiter.`` at the start)
   - Write out the new Set-Cookie value
   
-To capture data in rewrite rules you put the data into a **regex group** and you can then access that data later using curly braces e.g. **{R:0}** or **{C:0}**.
+To capture data in rewrite rules you put the data into a **regex group** which can then be accessed later using curly braces e.g. **{R:*}** or **{C:*}**.
+
   - R = Request
   - C = Condition
 
@@ -77,9 +81,9 @@ Next I created a condition to parse out the data I needed from the _HTTP_HOST_ h
 ^(recruiter.|)(.*?)(:|$)
 ```
 
-Using the above regex means we can access the TLD via the **(.*?)** selector via the **{C:2}** variable.
+Using the above regex means we can access the TLD via the **(.*?)** selector using the **{C:2}** variable.
 
-Finally, we want to write out the new Set-Cookie header by appending a **; domain=** onto the end referencing both the original value and the new domain value we just captured.
+Finally, we want to write out the new Set-Cookie header by appending a **; domain=** onto the end of the exiting value.
 
 ```xml
 <outboundRules>
@@ -94,11 +98,11 @@ Finally, we want to write out the new Set-Cookie header by appending a **; domai
 </outboundRules>
 ```
 
-Beautiful.
+Beautiful :smile:
 
 
 ### Solving problemo 2
-This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **recruiter.**. 
+This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **"recruiter."**. 
 
 Again, we need to create a pre-condition to detect a dodgy cookie domain:
 
