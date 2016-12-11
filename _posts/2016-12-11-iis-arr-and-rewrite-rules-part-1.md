@@ -109,6 +109,7 @@ Again, we need to create a pre-condition to detect a dodgy cookie domain:
 ```
 
 Then using the REGEX variable matching magic we are able to store down the Set-Cookie header before the domain (R:1) and after the dodgy domain (R:2) allowing us to re-assemble the header on the Rewrite action:
+
 ```xml
 <rule name="Ensure cookies are not stored on recruiter sub-domain" preCondition="contains-recruiter-sub-domain-set-cookie-header">
   <match serverVariable="RESPONSE_Set_Cookie" pattern="^(.*?domain=)recruiter\.(.*?)$" negate="false" />
