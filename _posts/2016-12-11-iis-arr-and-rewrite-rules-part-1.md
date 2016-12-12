@@ -12,11 +12,11 @@ tags:
   - cookies
 bigimg: /img/rewrite.jpg
 ---
-The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the the platform to become more agile.
+The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the platform to become more agile.
 
-We have previously accomplished this by creating a [Reverse Proxy](https://en.wikipedia.org/wiki/Reverse_proxy) with [ARR](https://www.iis.net/downloads/microsoft/application-request-routing) and [Rewrite Rules](https://www.iis.net/learn/extensions/url-rewrite-module/creating-rewrite-rules-for-the-url-rewrite-module) to allow us to send certain requests to independent apps - these can then be released and evolve on their own. The problem I have been dealing with is the legacy/aging platform that has evolved of the years. This approach is still correct because:
+We have previously accomplished this by creating a [Reverse Proxy](https://en.wikipedia.org/wiki/Reverse_proxy) with [ARR](https://www.iis.net/downloads/microsoft/application-request-routing) and [Rewrite Rules](https://www.iis.net/learn/extensions/url-rewrite-module/creating-rewrite-rules-for-the-url-rewrite-module) to allow us to send certain requests to independent apps - these can then be released and evolve on their own. The problem I have been dealing with is the legacy/aging platform that has evolved of the years. This approach is still desirable because:
 
-- The routing is an additive process (we shouldn't have to modify existing code, however this might be a little naive)
+- The routing is an additive process (we shouldn’t have to modify existing code; however, this might be a little naive)
 - We can test the routing layer for specific brands (single site of our portfolio) without affecting the other sites
 - We should be able to easily flip back/undo the routing at the load balancer level (super safe)
   
@@ -158,11 +158,3 @@ Next post I will try and walk you through some in-bound header changes and how t
     </rewrite>
 </system.webServer>
 ```
-
-
-
-
-
-
-
-
