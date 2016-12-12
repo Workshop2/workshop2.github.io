@@ -122,7 +122,9 @@ Then using the REGEX variable matching magic we are able to store down the Set-C
 ```
 
 ### Testing
-Rewrite rules are a pain to test, however we have a number of helper methods to parse the XML to unit test that they perform what you need. If we are able to turn these into a nuget package I will list it here.
+You will want to test these rules...really really well - coding at this level of your platform is super important to get right.
+
+I am working on a testing library for IIS rules (simple XML parsing) which I will hopefully soon release.
 
 
 ## The end
