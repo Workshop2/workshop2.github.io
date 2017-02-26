@@ -12,7 +12,7 @@ tags:
   - cookies
 bigimg: /img/rewrite.jpg
 ---
-**Update:** I have released a Nuget library which enables you to test re-write rules easily. [Nuget](https://www.nuget.org/packages/RewriteRuleTestHarness/) | [Github](http://github.com/workshop2/rewriteruletestharness/)
+**Update:** I have released a Nuget library which enables you to test re-write rules easily. | [Nuget](https://www.nuget.org/packages/RewriteRuleTestHarness/) | [Github](http://github.com/workshop2/rewriteruletestharness/)
 
 The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the platform to become more agile.
 
