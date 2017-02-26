@@ -12,6 +12,8 @@ tags:
   - cookies
 bigimg: /img/rewrite.jpg
 ---
+**Update:** I have released a Nuget library which enables you to test re-write rules easily. [Nuget](https://www.nuget.org/packages/RewriteRuleTestHarness/) | [Github](http://github.com/workshop2/rewriteruletestharness/)
+
 The project I have been working on at TJG is to add a routing layer into our Recruiter website to enable the platform to become more agile.
 
 We have previously accomplished this by creating a [Reverse Proxy](https://en.wikipedia.org/wiki/Reverse_proxy) with [ARR](https://www.iis.net/downloads/microsoft/application-request-routing) and [Rewrite Rules](https://www.iis.net/learn/extensions/url-rewrite-module/creating-rewrite-rules-for-the-url-rewrite-module) to allow us to send certain requests to independent apps - these can then be released and evolve on their own. The problem I have been dealing with is the legacy/aging platform that has evolved of the years. 
@@ -103,7 +105,7 @@ Finally, we want to write out the new Set-Cookie header by appending a **; domai
 Beautiful :smile:
 
 
-### Solving problemo 2
+### Solving problem no.2
 This next rule is more of a filter which strips out domains that we don't want - in our case if a cookie is being stored against **"recruiter."**. 
 
 Again, we need to create a pre-condition to detect a dodgy cookie domain:
